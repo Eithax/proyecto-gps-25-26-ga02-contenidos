@@ -1,0 +1,32 @@
+[
+    {
+        "model": "country.country",
+        "pk": "550e8400-e29b-41d4-a716-446655440000",
+        "fields": {
+            "name": "España",
+            "iso_code": "ES",
+            "iso_code_3": "ESP",
+            "continent": "EU",
+            "phone_code": "+34",
+            "currency_code": "EUR",
+            "currency_name": "Euro",
+            "flag_url": "https://flagcdn.com/es.svg",
+            "is_active": true
+        }
+    },
+    {
+        "model": "country.country",
+        "pk": "550e8400-e29b-41d4-a716-446655440001",
+        "fields": {
+            "name": "Estados Unidos",
+            "iso_code": "US",
+            "iso_code_3": "USA",
+            "continent": "NA",
+            "phone_code": "+1",
+            "currency_code": "USD",
+            "currency_name": "Dólar estadounidense",
+            "flag_url": "https://flagcdn.com/us.svg",
+            "is_active": true
+        }
+    }
+]
