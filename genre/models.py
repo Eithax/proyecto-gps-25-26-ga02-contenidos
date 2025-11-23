@@ -5,7 +5,8 @@ import uuid
 
 class Genre(models.Model):
     # ID único
-    genre_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    #genre_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    genre_id = models.AutoField(primary_key=True)
 
     # Campos básicos
     name = models.CharField(

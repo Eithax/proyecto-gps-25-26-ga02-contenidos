@@ -13,7 +13,8 @@ class GenreSerializer(serializers.ModelSerializer):
     albums_count = serializers.ReadOnlyField()
 
     # Campos para escritura
-    parent_genre_id = serializers.UUIDField(write_only=True, required=False, allow_null=True)
+    # parent_genre_id = serializers.UUIDField(write_only=True, required=False, allow_null=True)
+    parent_genre_id = serializers.IntegerField()
 
     class Meta:
         model = Genre
@@ -27,7 +28,8 @@ class GenreSerializer(serializers.ModelSerializer):
 
 
 class GenreCreateSerializer(serializers.ModelSerializer):
-    parent_genre_id = serializers.UUIDField(required=False, allow_null=True)
+    # parent_genre_id = serializers.UUIDField(required=False, allow_null=True)
+    parent_genre_id = serializers.IntegerField()
 
     class Meta:
         model = Genre
@@ -94,7 +96,8 @@ class GenreCreateSerializer(serializers.ModelSerializer):
 
 
 class GenreUpdateSerializer(serializers.ModelSerializer):
-    parent_genre_id = serializers.UUIDField(required=False, allow_null=True)
+    # parent_genre_id = serializers.UUIDField(required=False, allow_null=True)
+    parent_genre_id = serializers.IntegerField()
 
     class Meta:
         model = Genre
