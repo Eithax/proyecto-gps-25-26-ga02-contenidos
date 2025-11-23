@@ -4,7 +4,8 @@ import uuid
 
 class RecordLabel(models.Model):
     # ID único
-    label_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    # label_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.AutoField(primary_key=True, db_column='label_id')
 
     # Campos básicos
     name = models.CharField(max_length=200, blank=False, null=False)
@@ -47,7 +48,7 @@ class RecordLabel(models.Model):
     def albums_count(self):
         """Número total de álbumes publicados por el sello"""
         from album.models import Album
-        return Album.objects.filter(artist__label_id=self).count()
+        return Album.objects.filter(artist_id__label_id=self).count()
 
     @property
     def is_active(self):
