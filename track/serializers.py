@@ -12,11 +12,11 @@ class TrackSerializer(serializers.ModelSerializer):
     class Meta:
         model = Track
         fields = [
-            'id', 'artist', 'album', 'title', 'duration_sec', 'duration_formatted',
+            'track_id', 'artist', 'album', 'title', 'duration_sec', 'duration_formatted',
             'explicit', 'status', 'preview_url', 'audio_master_url', 'language',
             'genres', 'artist_id', 'album_id'
         ]
-        read_only_fields = ['id']
+        read_only_fields = ['track_id']
 
     def get_artist(self, obj):
         """Importación diferida para evitar importaciones circulares"""

@@ -2,6 +2,7 @@ from django.db import models
 from core.choices import ReleaseStatus, Language
 
 class Track(models.Model):
+    track_id = models.AutoField(primary_key=True)
     artist_id = models.ForeignKey('artist.Artist', on_delete=models.SET_NULL, null=True, blank=True, related_name='tracks')
     album_id = models.ForeignKey('album.Album', on_delete=models.SET_NULL, null=True, blank=True, related_name='tracks')
     title = models.CharField(max_length=200, blank=False, null=False)
