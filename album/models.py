@@ -5,11 +5,14 @@ import uuid
 
 
 class Album(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    artist_id = models.ForeignKey(
+    id = models.AutoField(primary_key=True)
+    artist = models.ForeignKey(
         'artist.Artist',
-        on_delete=models.CASCADE,
-        related_name='albums'
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='albums',
+        db_column='artist_id'
     )
     title = models.CharField(max_length=255)
     cover_url = models.URLField(
@@ -72,7 +75,7 @@ class Album(models.Model):
     def total_duration(self):
         """Calcula la duración total del álbum sumando las pistas"""
         from django.db.models import Sum
-        total_seconds = self.tracks.aggregate(
+        total_seconds = self.track_list.aggregate(
             total=Sum('duration_sec')
         )['total'] or 0
         return total_seconds
@@ -80,7 +83,7 @@ class Album(models.Model):
     @property
     def total_tracks(self):
         """Número total de pistas en el álbum"""
-        return self.tracks.count()
+        return self.track_list.count()
 
     @property
     def duration_formatted(self):
@@ -96,5 +99,5 @@ class Album(models.Model):
             return f"{minutes:02d}:{seconds:02d}"
 
     def get_tracks_ordered(self):
-        """Obtiene las pistas ordenadas (podrías agregar un campo 'track_number' después)"""
-        return self.tracks.all().order_by('title')
+        """Obtiene las pistas ordenadas"""
+        return self.track_list.all().order_by('title')
