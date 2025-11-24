@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'country',
     'record_label',
     'track',
+    'playlist',
 ]
 
 MIDDLEWARE = [
