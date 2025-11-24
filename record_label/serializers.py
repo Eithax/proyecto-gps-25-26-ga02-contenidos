@@ -17,11 +17,11 @@ class RecordLabelSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecordLabel
         fields = [
-            'label_id', 'name', 'country', 'contact', 'web',
+            'id', 'name', 'country', 'contact', 'web',
             'artists_count', 'albums_count', 'is_active',
             'created_at', 'updated_at', 'country_id'
         ]
-        read_only_fields = ['label_id', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'created_at', 'updated_at']
 
     def get_country(self, obj):
         """Importación diferida para country"""
@@ -35,7 +35,7 @@ class RecordLabelCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecordLabel
         fields = [
-            'label_id', 'name', 'country_id', 'contact', 'web'
+            'id', 'name', 'country_id', 'contact', 'web'
         ]
 
     def validate_name(self, value):

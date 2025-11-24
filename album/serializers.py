@@ -13,7 +13,8 @@ class AlbumSerializer(serializers.ModelSerializer):
     is_released = serializers.ReadOnlyField()
 
     # Campos para escritura
-    artist_id = serializers.UUIDField(write_only=True, required=True)
+    # artist_id = serializers.UUIDField(write_only=True, required=True)
+    artist_id = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Album
@@ -32,7 +33,8 @@ class AlbumSerializer(serializers.ModelSerializer):
 
 
 class AlbumCreateSerializer(serializers.ModelSerializer):
-    artist_id = serializers.UUIDField(required=True)
+    # artist_id = serializers.UUIDField(required=True)
+    artist_id = serializers.IntegerField(write_only=True)
 
     class Meta:
         model = Album
@@ -40,15 +42,6 @@ class AlbumCreateSerializer(serializers.ModelSerializer):
             'id', 'artist_id', 'title', 'cover_url', 'release_date',
             'status', 'genres', 'price'
         ]
-
-    def validate_release_date(self, value):
-        """Validar que la fecha de lanzamiento no sea en el pasado para álbumes publicados"""
-        from django.utils import timezone
-        if value < timezone.now().date():
-            raise serializers.ValidationError(
-                "La fecha de lanzamiento no puede ser en el pasado para álbumes publicados"
-            )
-        return value
 
     def validate_price(self, value):
         """Validar que el precio no sea negativo"""
@@ -80,7 +73,8 @@ class AlbumCreateSerializer(serializers.ModelSerializer):
 
 
 class AlbumUpdateSerializer(serializers.ModelSerializer):
-    artist_id = serializers.UUIDField(required=False)
+    # artist_id = serializers.UUIDField(required=False)
+    artist_id = serializers.ReadOnlyField()
 
     class Meta:
         model = Album

@@ -8,29 +8,27 @@ class ArtistSerializer(serializers.ModelSerializer):
     country = serializers.SerializerMethodField()
 
     # Campos calculados
-    albums_count = serializers.ReadOnlyField()
-    tracks_count = serializers.ReadOnlyField()
     is_signed = serializers.ReadOnlyField()
     public_social_media = serializers.ReadOnlyField()
 
     # Campos para escritura
-    label_id = serializers.UUIDField(write_only=True, required=False, allow_null=True)
-    country_id = serializers.UUIDField(write_only=True, required=False, allow_null=True)
+    label_id = serializers.IntegerField(write_only=True)
+    country_id = serializers.IntegerField(write_only=True)
 
     class Meta:
         model = Artist
         fields = [
-            'artist_id', 'name', 'bio', 'image_url', 'country', 'label',
-            'socials', 'public_social_media', 'albums_count', 'tracks_count',
-            'is_signed', 'created_at', 'updated_at', 'label_id', 'country_id'
+            'id', 'name', 'bio', 'image_url', 'country', 'label',
+            'socials', 'public_social_media', 'is_signed', 'created_at',
+            'updated_at', 'label_id', 'country_id'
         ]
-        read_only_fields = ['artist_id', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'created_at', 'updated_at']
 
     def get_label(self, obj):
         """Importación diferida para label"""
-        if obj.label_id:
+        if obj.label:
             from record_label.serializers import RecordLabelSerializer
-            return RecordLabelSerializer(obj.label_id).data
+            return RecordLabelSerializer(obj.label).data
         return None
 
     def get_country(self, obj):
@@ -42,13 +40,15 @@ class ArtistSerializer(serializers.ModelSerializer):
 
 
 class ArtistCreateSerializer(serializers.ModelSerializer):
-    label_id = serializers.UUIDField(required=False, allow_null=True)
-    country_id = serializers.UUIDField(required=False, allow_null=True)
+    # label_id = serializers.UUIDField(required=False, allow_null=True)
+    # country_id = serializers.UUIDField(required=False, allow_null=True)
+    label_id = serializers.IntegerField(write_only=True)
+    country_id = serializers.IntegerField(write_only=True)
 
     class Meta:
         model = Artist
         fields = [
-            'artist_id', 'name', 'bio', 'image_url', 'label_id',
+            'id', 'name', 'bio', 'image_url', 'label_id',
             'country_id', 'socials'
         ]
 
@@ -73,8 +73,9 @@ class ArtistCreateSerializer(serializers.ModelSerializer):
         if label_id:
             try:
                 from record_label.models import RecordLabel
+                print(label_id)
                 label = RecordLabel.objects.get(id=label_id)
-                validated_data['label_id'] = label
+                validated_data['label_id'] = label_id
             except RecordLabel.DoesNotExist:
                 raise serializers.ValidationError({"label_id": "Sello discográfico no encontrado"})
         else:
@@ -84,7 +85,7 @@ class ArtistCreateSerializer(serializers.ModelSerializer):
             try:
                 from country.models import Country
                 country = Country.objects.get(id=country_id)
-                validated_data['country'] = country
+                validated_data['country_id'] = country_id
             except Country.DoesNotExist:
                 raise serializers.ValidationError({"country_id": "País no encontrado"})
         else:
@@ -96,8 +97,10 @@ class ArtistCreateSerializer(serializers.ModelSerializer):
 
 
 class ArtistUpdateSerializer(serializers.ModelSerializer):
-    label_id = serializers.UUIDField(required=False, allow_null=True)
-    country_id = serializers.UUIDField(required=False, allow_null=True)
+    # label_id = serializers.UUIDField(required=False, allow_null=True)
+    # country_id = serializers.UUIDField(required=False, allow_null=True)
+    label_id = serializers.IntegerField(write_only=True)
+    country_id = serializers.IntegerField(write_only=True)
 
     class Meta:
         model = Artist
@@ -125,7 +128,7 @@ class ArtistUpdateSerializer(serializers.ModelSerializer):
                 try:
                     from record_label.models import RecordLabel
                     label = RecordLabel.objects.get(id=label_id)
-                    instance.label_id = label
+                    instance.label_id = label_id
                 except RecordLabel.DoesNotExist:
                     raise serializers.ValidationError({"label_id": "Sello discográfico no encontrado"})
             else:

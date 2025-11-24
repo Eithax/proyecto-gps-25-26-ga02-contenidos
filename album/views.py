@@ -52,10 +52,7 @@ class AlbumViewSet(viewsets.ModelViewSet):
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(queryset, many=True)
-        return Response({
-            'items': serializer.data,
-            'total': queryset.count()
-        })
+        return Response(serializer.data)
 
     def retrieve(self, request, *args, **kwargs):
         """

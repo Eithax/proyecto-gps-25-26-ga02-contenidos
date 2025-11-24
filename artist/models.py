@@ -4,7 +4,8 @@ import uuid
 
 class Artist(models.Model):
     # ID único
-    artist_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    #artist_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.AutoField(primary_key=True, db_column='artist_id')
 
     # Campos básicos
     name = models.CharField(max_length=200, blank=False, null=False)
@@ -16,12 +17,13 @@ class Artist(models.Model):
     )
 
     # Relaciones
-    label_id = models.ForeignKey(
+    label = models.ForeignKey(
         "record_label.RecordLabel",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name='artists'
+        related_name='artists',
+        db_column='label_id'
     )
     country = models.ForeignKey(
         "country.Country",
@@ -76,16 +78,6 @@ class Artist(models.Model):
     def public_social_media(self):
         """Redes sociales con URL (no vacías)"""
         return {k: v for k, v in self.socials.items() if v}
-
-    @property
-    def albums_count(self):
-        """Número total de álbumes del artista"""
-        return self.albums.count()
-
-    @property
-    def tracks_count(self):
-        """Número total de pistas del artista"""
-        return self.tracks.count()
 
     @property
     def is_signed(self):

@@ -10,11 +10,11 @@ class RecordLabelAdmin(admin.ModelAdmin):
     ]
     list_filter = ['country', 'created_at']
     search_fields = ['name', 'contact', 'web']
-    readonly_fields = ['label_id', 'artists_count', 'albums_count', 'is_active']
+    readonly_fields = ['id', 'artists_count', 'albums_count', 'is_active']
 
     fieldsets = (
         ('Información Básica', {
-            'fields': ('label_id', 'name', 'country')
+            'fields': ('id', 'name', 'country')
         }),
         ('Contacto', {
             'fields': ('contact', 'web')

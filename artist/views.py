@@ -12,7 +12,7 @@ from .serializers import (
 
 
 class ArtistViewSet(viewsets.ModelViewSet):
-    queryset = Artist.objects.select_related('label_id', 'country').prefetch_related('albums', 'tracks')
+    queryset = Artist.objects.select_related('label', 'country')
     serializer_class = ArtistSerializer
 
     def get_serializer_class(self):
@@ -57,10 +57,7 @@ class ArtistViewSet(viewsets.ModelViewSet):
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(queryset, many=True)
-        return Response({
-            'items': serializer.data,
-            'total': queryset.count()
-        })
+        return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
         """
