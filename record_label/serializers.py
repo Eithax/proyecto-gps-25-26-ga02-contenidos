@@ -100,7 +100,7 @@ class RecordLabelUpdateSerializer(serializers.ModelSerializer):
         return value
 
     def validate_web(self, value):
-        if value and not value.startswith(('http://', 'https://')):
+        if value and not value.startswith(('https://')):
             raise serializers.ValidationError("La URL debe comenzar con http:// o https://")
         return value
 
