@@ -38,7 +38,7 @@ class Country(models.Model):
     continent = models.CharField(
         max_length=20,
         blank=True,
-        null=True,
+        null=False,
         choices=[
             ('AF', 'África'),
             ('AS', 'Asia'),
@@ -54,21 +54,21 @@ class Country(models.Model):
     phone_code = models.CharField(
         max_length=5,
         blank=True,
-        null=True,
+        null=False,
         help_text="Código telefónico internacional (ej: +34)"
     )
 
     currency_code = models.CharField(
         max_length=3,
         blank=True,
-        null=True,
+        null=False,
         help_text="Código de moneda ISO 4217 (ej: EUR, USD)"
     )
 
     currency_name = models.CharField(
         max_length=50,
         blank=True,
-        null=True,
+        null=False,
         help_text="Nombre de la moneda local"
     )
 
@@ -76,7 +76,7 @@ class Country(models.Model):
     flag_url = models.URLField(
         max_length=500,
         blank=True,
-        null=True,
+        null=False,
         help_text="URL de la bandera del país"
     )
 
