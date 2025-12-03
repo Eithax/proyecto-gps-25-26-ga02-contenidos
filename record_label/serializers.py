@@ -52,7 +52,7 @@ class RecordLabelCreateSerializer(serializers.ModelSerializer):
 
     def validate_web(self, value):
         """Validar formato de URL si se proporciona"""
-        if value and not value.startswith(('http://', 'https://')):
+        if value and not value.startswith(('https://')):
             raise serializers.ValidationError("La URL debe comenzar con http:// o https://")
         return value
 
