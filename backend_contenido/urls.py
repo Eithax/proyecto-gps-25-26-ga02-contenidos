@@ -18,12 +18,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+BASE_URL = 'api/v1/'
+
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('api/v1/', include('track.urls')),
-    path('api/v1/', include('album.urls')),
-    path('api/v1/', include('artist.urls')),
-    path('api/v1/', include('country.urls')),
-    path('api/v1/', include('genre.urls')),
-    path('api/v1/', include('record_label.urls')),
+    path(BASE_URL, include('track.urls')),
+    path(BASE_URL, include('album.urls')),
+    path(BASE_URL, include('artist.urls')),
+    path(BASE_URL, include('country.urls')),
+    path(BASE_URL, include('genre.urls')),
+    path(BASE_URL, include('record_label.urls')),
 ]
