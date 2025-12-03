@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from .models import Genre
 
+ERROR_MESSAGE = "Género padre no encontrado"
+
 
 class GenreSerializer(serializers.ModelSerializer):
     # Campos de solo lectura para representación
@@ -70,7 +72,7 @@ class GenreCreateSerializer(serializers.ModelSerializer):
                         raise serializers.ValidationError("La jerarquía de géneros es demasiado profunda")
 
             except Genre.DoesNotExist:
-                raise serializers.ValidationError("Género padre no encontrado")
+                raise serializers.ValidationError(ERROR_MESSAGE)
 
         return value
 
@@ -84,7 +86,7 @@ class GenreCreateSerializer(serializers.ModelSerializer):
                 parent_genre = Genre.objects.get(genre_id=parent_genre_id)
                 validated_data['parent_genre'] = parent_genre
             except Genre.DoesNotExist:
-                raise serializers.ValidationError({"parent_genre_id": "Género padre no encontrado"})
+                raise serializers.ValidationError({"parent_genre_id": ERROR_MESSAGE})
         else:
             validated_data['parent_genre'] = None
 
@@ -132,7 +134,7 @@ class GenreUpdateSerializer(serializers.ModelSerializer):
                         raise serializers.ValidationError("No se puede crear un ciclo en la jerarquía de géneros")
 
                 except Genre.DoesNotExist:
-                    raise serializers.ValidationError("Género padre no encontrado")
+                    raise serializers.ValidationError(ERROR_MESSAGE)
 
         return value
 
@@ -146,7 +148,7 @@ class GenreUpdateSerializer(serializers.ModelSerializer):
                     parent_genre = Genre.objects.get(genre_id=parent_genre_id)
                     instance.parent_genre = parent_genre
                 except Genre.DoesNotExist:
-                    raise serializers.ValidationError({"parent_genre_id": "Género padre no encontrado"})
+                    raise serializers.ValidationError({"parent_genre_id": ERROR_MESSAGE})
             else:
                 instance.parent_genre = None
 
